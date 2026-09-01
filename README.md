@@ -64,6 +64,5 @@ The explicit feature interaction in Polynomial Regression and the deep architect
  ┣ 📂 data/              # Dataset placement instructions (insurance.csv)
  ┣ 📂 docs/              # In-depth mathematical report (PDF)
  ┣ 📂 media/             # Presentation slides and output graphs
- ┣ 📜 .gitignore         # Ignores virtual environments and cache
  ┣ 📜 requirements.txt   # Python dependency list
  ┗ 📜 README.md          # Project overview (this file)
