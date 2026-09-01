@@ -1,4 +1,4 @@
-# 🏥 Medical Insurance Cost Prediction: Deep Learning & ANFIS
+# 🏥 Medical Insurance Cost Prediction: ML & ANFIS
 
 <div align="center">
 
