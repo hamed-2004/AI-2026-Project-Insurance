@@ -1,0 +1,24 @@
+# --- Forward Pass: LSE optimization for linear parameters ---
+Xe = np.hstack([Xb, np.ones((Nb, 1))])
+for r in range(self.n_rules):
+    W_r = w_n[:, r]
+    A = W_r[:, None] * Xe
+    b_r = W_r * yb
+    # Solving Least Squares exactly via NumPy
+    sol, _, _, _ = np.linalg.lstsq(A, b_r, rcond=None)
+    self.P[r] = sol
+
+# --- Backward Pass: Gradient descent for nonlinear premise parameters ---
+y_pred, w, w_n, mu, f = self._forward(Xb)
+err = y_pred - yb
+w_sum = w.sum(axis=1, keepdims=True)
+
+# Chain Rule for backward propagation
+d_wn = err[:, None] * (f - y_pred[:, None])
+d_w = (d_wn * w_sum - w * d_wn.sum(axis=1, keepdims=True)) / (w_sum ** 2 + 1e-12)
+
+for r in range(self.n_rules):
+    for ftr in range(F):
+        # Updating Centers (c) and Standard Deviations (sigma)
+        self.c[r, ftr] -= self.lr * dc.mean()
+        self.sigma[r, ftr] -= self.lr * dsig.mean()

@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}مقدمه و تشریح کلی پروژه}{2}{section.1}%
+\contentsline {section}{\numberline {2}پیش‌پردازش و تحلیل اکتشافی داده‌ها \lr {(EDA)}}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}بصری‌سازی ساختار داده‌ها و توزیع ویژگی‌ها}{2}{subsection.2.1}%
+\contentsline {section}{\numberline {3}فاز اول: رگرسیون خطی و تعاملی (چندجمله‌ای)}{3}{section.3}%
+\contentsline {section}{\numberline {4}فاز دوم: شبکه‌های عصبی \lr {(MLP)}}{4}{section.4}%
+\contentsline {section}{\numberline {5}فاز سوم: سیستم استنتاج فازی-عصبی تطبیقی \lr {(ANFIS)}}{5}{section.5}%
+\contentsline {subsection}{\numberline {5.1}تشریح ریاضیاتی ۵ لایه شبکه \lr {ANFIS}}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}الگوریتم یادگیری هیبریدی \lr {(Hybrid Learning Rule)}}{7}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}مدیریت چالش نفرین ابعاد \lr {(Curse of Dimensionality)}}{7}{subsection.5.3}%
+\contentsline {section}{\numberline {6}تحلیل نمودارهای یادگیری و توابع فازی}{8}{section.6}%
+\contentsline {section}{\numberline {7}ارزیابی جامع و نتیجه‌گیری نهایی}{9}{section.7}%
+\contentsline {subsection}{\numberline {7.1}تحلیل پدیده اشباع قوانین و برتری رگرسیون}{11}{subsection.7.1}%

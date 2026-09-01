@@ -1,0 +1,637 @@
+\documentclass{article}
+
+%====================================================
+%                  PACKAGES
+%====================================================
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{float}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{eso-pic} 
+\usepackage[most]{tcolorbox}
+\usepackage{xepersian}
+\usetikzlibrary{calc} 
+
+%====================================================
+%                  COLORS
+%====================================================
+
+\definecolor{softgreen}{RGB}{240,250,245}
+\definecolor{mygreen}{RGB}{46,139,87}
+
+\definecolor{softorange}{RGB}{255,248,235}
+\definecolor{golden}{RGB}{218,165,32} 
+
+\definecolor{softpink}{RGB}{255,240,245}
+\definecolor{softred}{RGB}{205,92,92}
+
+\definecolor{softgray}{RGB}{248,248,248}
+\definecolor{glassbg}{RGB}{255,255,255} 
+\definecolor{mainblue}{RGB}{15,76,129}
+\definecolor{lightblue}{RGB}{226,238,250}
+\definecolor{deepblue}{RGB}{9,24,51} 
+
+% --- رنگ‌های جدید تم کلاسیک و پلاتینی صفحه اول ---
+\definecolor{midnight}{RGB}{8, 12, 20}         % سورمه‌ای/مشکی بسیار تاریک و عمیق
+\definecolor{platinum}{RGB}{214, 219, 223}     % نقره‌ای روشن و شیک برای متن و لبه‌ها
+\definecolor{mutedslate}{RGB}{69, 84, 104}     % خاکستری متمایل به آبی برای فریم‌ها و کادرها
+\definecolor{slatebg}{RGB}{20, 30, 45}          % سورمه‌ای-زغالی عمیق و مات
+
+\definecolor{softgray}{RGB}{245,245,245}
+
+% تم کادرهای مات
+\definecolor{mattedarkblue}{RGB}{35, 45, 60} 
+\definecolor{mattebgblue}{RGB}{248, 250, 253} 
+\definecolor{mattedarkgold}{RGB}{120, 95, 45} 
+\definecolor{mattebggold}{RGB}{254, 253, 249} 
+\definecolor{mattedarkred}{RGB}{100, 35, 40} 
+\definecolor{mattebgred}{RGB}{253, 248, 248} 
+
+% رنگ‌های تم VS Code Dark+
+\definecolor{vscBackground}{RGB}{30,30,30}      
+\definecolor{vscText}{RGB}{212,212,212}         
+\definecolor{vscPink}{RGB}{197,134,192}         
+\definecolor{vscBlue}{RGB}{86,156,214}          
+\definecolor{vscString}{RGB}{206,145,120}       
+\definecolor{vscComment}{RGB}{106,153,85}       
+\definecolor{vscTopBar}{RGB}{37,37,38}          
+
+
+%====================================================
+%                  HYPERREF
+%====================================================
+\hypersetup{
+	colorlinks=true,
+	linkcolor=mainblue, 
+	filecolor=magenta,
+	urlcolor=mainblue, 
+	citecolor=mygreen 
+}
+
+%====================================================
+%                  FONTS
+%====================================================
+\settextfont[Path={./font/}, Scale=1.4]{IRLotus}
+\setlatintextfont[Scale=1.1]{Times New Roman}
+
+%====================================================
+%                  PAGE STYLE
+%====================================================
+\setlength\headheight{28pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textcolor{mainblue}{\textbf{پروژه هوش مصنوعی}}}
+\chead{\includegraphics[width=1cm,height=1cm,keepaspectratio]{img/Logo.png}}
+\rhead{\textcolor{mainblue}{\textbf{\thepage}}}
+\rfoot{\textcolor{gray}{حامد بهروزی مقدم - علیرضا دیوسالار}}
+\renewcommand{\headrulewidth}{1.5pt} 
+\renewcommand{\headrule}{\hbox to\headwidth{\color{mainblue}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{gray}\leaders\hrule height \footrulewidth\hfill}}
+
+%====================================================
+%                  SECTION STYLE
+%====================================================
+\titleformat{\section}
+{\Large\bfseries\color{mainblue}}
+{\begin{tikzpicture}[baseline={(0,-0.1)}]
+		\node[fill=mainblue,text=white,rounded corners=2pt,inner sep=4pt] {\thesection};
+\end{tikzpicture}}
+{0.5em}
+{}[\vspace{0.2ex}\titlerule] 
+
+\titlespacing{\section}{0pt}{20pt}{10pt} 
+
+%====================================================
+%                  LINE SPACING & LISTINGS
+%====================================================
+% ====================================================
+%       4. VS CODE STYLE DEFINITION
+% ====================================================
+
+% --- استایل پایتون (همان استایل قبلی) ---
+\lstdefinestyle{vscode_inner}{
+    language=Python,
+    backgroundcolor=\color{vscBackground},
+    basicstyle=\linespread{1.1}\ttfamily\footnotesize\color{vscText}, 
+    commentstyle=\color{vscComment}\itshape,
+    stringstyle=\color{vscString},
+    numberstyle=\tiny\color{gray}, 
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    numbers=left,
+    numbersep=12pt, 
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=none, 
+    xleftmargin=12pt,
+    morestring=[s]{"""}{"""},
+    morestring=[s]{'''}{'''},
+    classoffset=0,
+    morekeywords={def,for,in,return,class,if,else,elif,while,try,except,with,and,or,not,is,yield,global},
+    keywordstyle=\color{vscPink}\bfseries,
+    classoffset=1,
+    morekeywords={import,as,from,True,False,None,self,pass,print},
+    keywordstyle=\color{vscBlue}\bfseries,
+    classoffset=0, 
+}
+
+% --- محیط‌های نمایش کد (هر دو) ---
+\newtcblisting{vscodewindow}[1]{
+    enhanced,
+    listing only,
+    listing options={style=vscode_inner},
+    title={\tikz[baseline=-0.6ex]{\fill[red!80!white] (0,0) circle (3.5pt); \fill[yellow!90!black] (0.4,0) circle (3.5pt); \fill[green!80!black] (0.8,0) circle (3.5pt);} \hspace{10pt} \ttfamily\footnotesize #1}, 
+    fonttitle=\sffamily,
+    coltitle=white,
+    colbacktitle=vscTopBar, 
+    colframe=vscTopBar, 
+    colback=vscBackground,
+    coltext=vscText, 
+    arc=5mm, 
+    outer arc=5mm,
+    boxrule=1pt,
+    titlerule=0pt, 
+    toptitle=3mm, 
+    bottomtitle=3mm,
+    top=3mm, 
+    bottom=3mm,
+    left=2mm,
+    right=2mm,
+    drop shadow=black!50!white, 
+    before skip=15pt,
+    after skip=15pt
+}
+%====================================================
+%                  TCOLORBOX
+%====================================================
+\tcbset{
+	enhanced,
+	breakable,
+	arc=3mm, 
+	boxrule=1pt, 
+	fonttitle=\bfseries\large, 
+	drop fuzzy shadow 
+}
+
+%====================================================
+%                  AUTOREF
+%====================================================
+\AtBeginDocument{
+	\def\chapterautorefname{فصل}%
+	\def\sectionautorefname{بخش}%
+	\def\subsectionautorefname{زیربخش}%
+	\def\equationautorefname{رابطه}%
+	\def\figureautorefname{شکل}%
+	\def\tableautorefname{جدول}%
+}
+
+%====================================================
+%                  DOCUMENT
+%====================================================
+\begin{document}
+    
+    % --- TITLE PAGE (Midnight & Platinum Edition) ---
+    \begin{titlepage}
+        \AddToShipoutPictureBG*{
+            \begin{tikzpicture}[remember picture,overlay]
+                % پس‌زمینه دارک بسیار عمیق
+                \shade[inner color=midnight!80!gray, outer color=midnight] 
+                (current page.south west) rectangle (current page.north east);
+                
+                % گرید (چهارخانه) مهندسی بسیار محو در بک‌گراند
+                \draw[mutedslate, opacity=0.08, step=0.8cm, thin] 
+                (current page.south west) grid (current page.north east);
+                
+                % کادر دوبل نقره‌ای مات و کلاسیک
+                \draw[mutedslate, line width=1.2pt, opacity=0.8] 
+                ($(current page.north west)+(1.2cm,-1.2cm)$) rectangle ($(current page.south east)+(-1.2cm,1.2cm)$);
+                \draw[platinum, line width=0.5pt, opacity=0.3] 
+                ($(current page.north west)+(1.4cm,-1.4cm)$) rectangle ($(current page.south east)+(-1.4cm,1.4cm)$);
+                
+                % گوشه‌های مینیمال و شیک (استایل براکت)
+                \draw[platinum, thick, opacity=0.8] ($(current page.north west)+(1.2cm,-2.5cm)$) -- ($(current page.north west)+(1.2cm,-1.2cm)$) -- ($(current page.north west)+(2.5cm,-1.2cm)$);
+                \draw[platinum, thick, opacity=0.8] ($(current page.north east)+(-1.2cm,-2.5cm)$) -- ($(current page.north east)+(-1.2cm,-1.2cm)$) -- ($(current page.north east)+(-2.5cm,-1.2cm)$);
+                \draw[platinum, thick, opacity=0.8] ($(current page.south west)+(1.2cm,2.5cm)$) -- ($(current page.south west)+(1.2cm,1.2cm)$) -- ($(current page.south west)+(2.5cm,1.2cm)$);
+                \draw[platinum, thick, opacity=0.8] ($(current page.south east)+(-1.2cm,2.5cm)$) -- ($(current page.south east)+(-1.2cm,1.2cm)$) -- ($(current page.south east)+(-2.5cm,1.2cm)$);
+            \end{tikzpicture}
+        }
+        
+      	
+                  \begin{center}
+                      \vspace*{1.2cm} 
+                      
+                      % عنوان اصلی با رنگ سفید درخشان
+                      {\fontsize{42}{48}\selectfont \textbf{\textcolor{white}{گزارش پروژه اول‌ هوش مصنوعی}}} 
+                      
+                      \vspace{0.6cm} 
+                      
+                      % نام درس با رنگ پلاتینی
+                      {\LARGE \textbf{\textcolor{platinum}{پیش‌بینی هزینه‌های بیمه پزشکی}}} 
+                      
+                      \vspace{0.4cm}
+                      \textcolor{mutedslate}{\rule{5cm}{1pt}} % خط جداکننده نقره‌ای تیره
+                      
+                      \vspace{0.8cm} 
+                     
+                      % کادر لوگو - دارک و شیک (اصلاح شد)
+                      \begin{tcolorbox}[
+                          colback=black,         % اصلاح شد: همرنگ پس‌زمینه
+                          colframe=black,        % اصلاح شد: همرنگ پس‌زمینه (حذف کادر)
+                          boxrule=0pt,             % حذف کادر ضخیم
+                          arc=4mm,             
+                          left=3mm, right=3mm, top=3mm, bottom=3mm, 
+                          width=0.22\textwidth, 
+                          halign=center,
+                          no shadow                % حذف سایه برای یکدست شدن
+                          ]
+                          \includegraphics[width=\linewidth]{img/Logo.png}
+                      \end{tcolorbox}
+                      
+                      \vspace{0.8cm} 
+                      
+                      % کادر عنوان فرعی با پلاک شناور مات
+                      \begin{tcolorbox}[
+                          width=0.85\textwidth,
+                          colback=midnight!60!black, % پس‌زمینه شیشه‌ای و تاریک
+                          colframe=mutedslate, 
+                          arc=3mm, 
+                          boxrule=1pt, 
+                          title={\centering \Large \textbf{\textcolor{white}{فاز اول پروژه پایانی}}}, 
+                          fonttitle=\bfseries,
+                          boxed title style={colback=mutedslate, colframe=mutedslate, arc=2mm}, % پلاک پلاتینی بالا
+                          attach boxed title to top center={yshift=-12pt}, % شناور کردن پلاک
+                          halign=center,
+                          shadow={2mm}{-2mm}{0mm}{black!80} 
+                          ]
+                          \vspace{10pt}
+                          \large
+                          \textcolor{platinum}{طراحی و پیاده‌سازی جامع رگرسیون چندجمله‌ای، شبکه‌های عصبی  \lr{(MLP)} و پیاده‌سازی گام‌به‌گام سیستم استنتاج فازی-عصبی تطبیقی \lr{(ANFIS)} .}
+                      \end{tcolorbox}
+                      
+                      \vspace{0.8cm} 
+                      
+                      % کادر اطلاعات دانشجو - دارک با نوشته‌های نقره‌ای و سفید
+                      \begin{tcolorbox}[
+                          width=0.75\textwidth,
+                          colback=midnight!70!black, 
+                          colframe=mutedslate, 
+                          arc=3mm,
+                          boxrule=1pt,
+                          halign=center,
+                          shadow={2mm}{-2mm}{0mm}{black!80} 
+                          ]
+                          \renewcommand{\arraystretch}{1.8} 
+                          \large
+                          \begin{tabular}{>{\bfseries\color{platinum}}c c} 
+                           
+                                               نام دانشجو: & \textcolor{white}{حامد بهروزی مقدم - علی رضا دیوسالار} \\
+                                               شماره دانشجویی: & \textcolor{white}{40215633 - 40217493} \\
+                                               استاد درس: & \textcolor{white}{ جناب آقای دکتر علیاری} \\
+                                             لینک کد پروژه: & \href{https://colab.research.google.com/drive/1FdD7s4RYe0YUyPfa36JO0jg-Mlqws-po#scrollTo=8d2e8650-0e50-4584-941b-9191d611ad7b}{\lr{Google Colab}} \\
+                                             					لینک دیتاست پروژه: & \href{https://www.kaggle.com/datasets/mirichoi0218/insurance}{\lr{Kaggle Dataset}} \\
+                          \end{tabular}
+                      \end{tcolorbox}
+                      
+                  \end{center}
+    \end{titlepage}
+	
+	%====================================================
+	%                  TABLE OF CONTENTS
+	%====================================================
+	
+	\tableofcontents
+	\clearpage
+	
+%====================================================
+%                  INTRODUCTION
+%====================================================
+
+\section{مقدمه و تشریح کلی پروژه}
+
+\begin{tcolorbox}[
+	colback=softgreen,
+	colframe=mygreen,
+	title=هدف مهندسی پروژه,
+	halign title=center,
+	arc=3mm, boxrule=1pt
+	]
+	تبیین یک مدل ریاضی و هوشمند با تفسیرپذیری بالا و خطای اندک جهت پیش‌بینی نرخ عددی متغیر پیوسته حق بیمه سالیانه افراد بر اساس الگوهای فیچرهای دموگرافیک.
+\end{tcolorbox}
+
+مسئله تخمین حق بیمه پزشکی به دلیل ماهیت غیرخطی و رفتارهای سینگولار داده‌ها (به طور ویژه جهش ناگهانی هزینه‌ها برای افراد سیگاری با شاخص توده بدنی بالا) یکی از چالش‌های کلاسیک در حوزه یادگیری ماشین به شمار می‌رود. در حوزه‌های حساس مانند پزشکی و بیمه، تنها داشتن یک پیش‌بینی دقیق کافی نیست؛ بلکه **«تفسیرپذیری» (Interpretability)** مدل و توانایی توضیح دلایل پشت هر تصمیم به شدت حائز اهمیت است.
+
+در این پروژه، ما با پیاده‌سازی سه رویکرد کاملاً متمایز شامل مدل‌های آماری خطی تعاملی، شبکه‌های عصبی متراکم \lr{(MLP)} به عنوان یک جعبه سیاه پیچیده، و در نهایت سیستم‌های تلفیقی عصبی-فازی \lr{(ANFIS)} به عنوان یک جعبه شیشه‌ای، موازنه میان معیارهای محاسباتی پایداری، دقت پیش‌بینی و قدرت تفسیرپذیری مدل‌ها را به صورت آزمایشگاهی تحلیل می‌نماییم.
+
+%====================================================
+%                  DATA PREPROCESSING
+%====================================================
+
+\section{پیش‌پردازش و تحلیل اکتشافی داده‌ها \lr{(EDA)}}
+
+مجموعه داده‌های بیمه شامل ۱۳۳۸ رکورد است. برای آماده‌سازی این دیتاست، فرآیندهای مهندسی ویژگی زیر به صورت گام‌به‌گام در یک \lr{Pipeline} ایمن اعمال شده است:
+\begin{itemize}
+	\item \textbf{کدگذاری متغیرهای دودویی:} متغیرهای رشته‌ای نظیر جنسیت (\lr{sex}) و وضعیت دخانیات (\lr{smoker}) توسط \lr{LabelEncoder} به کدهای باینری صفر و یک نگاشت شدند.
+	\item \textbf{تبدیل متغیرهای چندکلاسه:} ویژگی منطقه‌ای (\lr{region}) با متد \lr{One-Hot Encoding} بسط یافت و برای ممانعت از هم‌خطی چندگانه (\lr{Multicollinearity})، پارامتر \lr{drop\_first=True} اعمال گردید.
+	\item \textbf{جلوگیری از نشت داده‌ها (\lr{Data Leakage}):} تقسیم‌بندی مجموعه به دو بخش آموزش و تست با نسبت ۸۰ به ۲۰ مستقیماً پیش از فاز مقیاس‌دهی انجام پذیرفت. سپس \lr{StandardScaler} منحصراً بر روی داده‌های آموزش \lr{fit} گردید تا هیچ اطلاعاتی از مجموعه تست وارد فاز آموزش نگردد.
+\end{itemize}
+
+\subsection{بصری‌سازی ساختار داده‌ها و توزیع ویژگی‌ها}
+پیش از ورود به فاز مدل‌سازی، نمودارهای تحلیل اکتشافی برای بررسی ساختار توزیع متغیر هدف و تعاملات ویژگی‌های کلیدی ترسیم شدند.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{fig1.png}
+	\caption{نمودار \lr{fig1}: توزیع چگالی متغیر هدف (حق بیمه). انحراف شدید به سمت راست، گواه بر فراوانی هزینه‌های پایه و رخدادهای نادر با هزینه‌های سنگین است.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{fig2.png}
+		\caption{نمودار \lr{fig2}: تأثیر سهمگین مصرف سیگار بر حق بیمه.}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{fig3.png}
+		\caption{نمودار \lr{fig3}: پراکندگی سن و هزینه به تفکیک سیگار.}
+	\end{subfigure}
+	\caption{تحلیل اکتشافی داده‌ها: همان‌طور که مشهود است، متغیر مصرف سیگار باعث ایجاد یک شیفت (\lr{Shift}) خطی بسیار قدرتمند در هزینه‌های پایه افراد شده است.}
+\end{figure}
+
+%====================================================
+%                  PHASE 1: REGRESSION
+%====================================================
+
+\section{فاز اول: رگرسیون خطی و تعاملی (چندجمله‌ای)}
+
+مدل‌های رگرسیون کلاسیک ذاتاً فرضیات خطی را به داده‌ها تحمیل می‌کنند و تأثیر هر ویژگی را مستقل از سایر ویژگی‌ها می‌سنجند. اما با توجه به مشاهدات فاز \lr{EDA} متوجه شدیم که فیچر شاخص توده بدنی (\lr{BMI}) به تنهایی تأثیر کمی دارد، ولی زمانی که یک فرد \textbf{همزمان سیگاری بوده و BMI بالایی داشته باشد}، هزینه‌های درمانی او به صورت تصاعدی جهش می‌کند.
+
+برای کشف خودکار این رابطه ضربی و تعاملی (\lr{BMI * Smoker})، از رگرسیون چندجمله‌ای درجه ۲ در قالب یک \lr{Pipeline} هوشمند استفاده کردیم:
+
+\begin{latin}
+	\begin{vscodewindow}{Polynomial Regression Pipeline for Interaction Extraction}
+# -----------------------------------
+# Phase 1: Regression
+# -----------------------------------
+# Polynomial Regression with automatic interaction extraction
+lr = LinearRegression()
+lr.fit(X_train_sc, y_train)
+evaluate("Linear Regression", y_test, lr.predict(X_test_sc))
+
+poly_pipe = Pipeline([
+    ('poly',   PolynomialFeatures(degree=2, include_bias=False)),
+    ('scaler', StandardScaler()),
+    ('lr',     LinearRegression())
+])
+poly_pipe.fit(X_train, y_train)
+evaluate("Polynomial Regression (d=2)", y_test, poly_pipe.predict(X_test))
+	\end{vscodewindow}
+\end{latin}
+
+\textbf{تحلیل کد:} ماژول \lr{PolynomialFeatures} تمام ترکیبات ضربی ممکن بین ویژگی‌ها را به صورت صریح تولید کرده و در اختیار یک مدل رگرسیون خطی ساده قرار می‌دهد. این کار باعث می‌شود مدل آماری ما از یک خط صاف به یک رویه‌ی خمیده و منعطف ارتقا یابد.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{terminal_1.png}
+	\caption{خروجی \lr{terminal\_1}: مقایسه خطای رگرسیون خطی و چندجمله‌ای. رگرسیون چندجمله‌ای با کشف صریح ویژگی‌های تعاملی، خطای مدل پایه را به شکل محسوسی کاهش داده است.}
+\end{figure}
+
+%====================================================
+%                  PHASE 2: MLP
+%====================================================
+
+\section{فاز دوم: شبکه‌های عصبی  \lr{(MLP)}}
+
+به منظور مدل‌سازی غیرخطی قدرتمندتر بدون نیاز به مهندسی دستی فیچر، معماری‌های مبتنی بر پرسپترون چندلایه \lr{(MLP)} طراحی گردید. در داده‌های جدول‌بندی شده (\lr{Tabular Data}) که ابعاد کوچکی دارند (تنها ۱۳۳۸ سطر)، خطر حفظ کردن داده‌ها (\lr{Overfitting}) و محوشدگی گرادیان در شبکه‌های بسیار عمیق بالاست. به همین منظور، معماری کاهشی تدریجی با استفاده از تابع فعال‌ساز \lr{ReLU} پیاده‌سازی شد:
+
+\begin{latin}
+	\begin{vscodewindow}{Defining Deep MLP Architectures with Early Stopping}
+mlp_regressor = MLPRegressor(
+    hidden_layer_sizes=(256, 128, 64, 32), # Deep architecture
+    activation='relu',
+    solver='adam',
+    max_iter=1000,
+    early_stopping=True,
+    validation_fraction=0.1,
+    random_state=42
+)
+mlp_regressor.fit(X_train_scaled, y_train)
+	\end{vscodewindow}
+\end{latin}
+
+\textbf{تحلیل کد:} شبکه عصبی تعریف شده دارای ۴ لایه پنهان متراکم با آرایش مخروطی (\lr{256->128->...}) است تا به تدریج ویژگی‌های انتزاعی را فشرده کند. استفاده از \lr{Early Stopping} الزامی بود تا با مانیتور کردن ۱۰ درصد از داده‌ها به عنوان \lr{Validation}، به محض متوقف شدن یادگیری مفید، فرآیند آپدیت وزن‌ها قطع گردد.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{terminal_2.png}
+	\caption{خروجی \lr{terminal\_2}: عمیق‌ترین شبکه عصبی \lr{(256-128-64-32)} بالاترین تطابق را در میان معماری‌های \lr{MLP} به دست آورده است.}
+\end{figure}
+
+	%====================================================
+	%                  PHASE 3: ANFIS
+	%====================================================
+	
+	\section{فاز سوم: سیستم استنتاج فازی-عصبی تطبیقی \lr{(ANFIS)}}
+	
+	بخش اصلی و نوآورانه این پروژه، پیاده‌سازی خط‌به‌خط ساختار ریاضی شبکه‌های فازی تطبیقی است. ما به جای استفاده از پکیج‌های بلک‌باکس آماده یا تقریب‌های خوشه‌بندی نظیر \lr{KMeans}، دقیقاً معماری معرفی‌شده در مقاله مرجع و کلاسیک **J. S. R. Jang (1993)** را با استفاده از توابع خام کتابخانه \lr{NumPy} برنامه‌نویسی کرده‌ایم.
+	
+	\begin{tcolorbox}[
+		colback=softorange,
+		colframe=golden,
+		title=تطابق معماری با مقاله \lr{Jang (1993)},
+		halign title=center,
+		arc=3mm, boxrule=1pt
+		]
+		مدل طراحی شده یک \lr{ANFIS} نوع تاکاگی-سوگنو (\lr{Takagi-Sugeno}) است که از شبکه‌ای پیشخور با ۵ لایه مجزا و الگوریتم یادگیری هیبریدی (ترکیب کمترین مربعات خطا و گرادیان کاهشی) تشکیل شده است.
+	\end{tcolorbox}
+	
+	\subsection{تشریح ریاضیاتی ۵ لایه شبکه \lr{ANFIS}}
+	مطابق با فرمولاسیون اصلی مقاله، لایه‌های شبکه به شرح زیر در پایتون مدل‌سازی شده‌اند:
+	\begin{enumerate}
+		\item \textbf{لایه ۱ (فازی‌سازی):} در این لایه با استفاده از تابع عضویت گوسی، درجه عضویت هر ویژگی ورودی محاسبه می‌شود. پارامترهای این لایه شامل مراکز ($c$) و واریانس ($\sigma$) هستند که در طول آموزش تغییر شکل می‌دهند:
+		$$ \mu_{i}(x) = \exp\left( - \frac{1}{2} \left( \frac{x - c_i}{\sigma_i} \right)^2 \right) $$
+		
+		\item \textbf{لایه ۲ (قدرت قوانین فازی - \lr{Fire Strength}):} معادل گره‌های $\Pi$ در مقاله، در کد ما در متد \lr{\_fire\_strength} از ضرب توابع عضویت \lr{(T-Norm)} برای تولید وزن هر قانون استفاده شده است:
+		$$ w_i = \prod_{j} \mu_{i,j}(x_j) $$
+		
+		\item \textbf{لایه ۳ (نرمال‌سازی وزن‌ها):} معادل گره‌های $N$، سهم قدرت شلیک هر قانون نسبت به کل قوانین محاسبه می‌گردد:
+		$$ \bar{w}_i = \frac{w_i}{\sum_{k} w_k} $$
+		
+		\item \textbf{لایه ۴ (بخش نتیجه - \lr{Consequent}):} پیاده‌سازی معادله خطی سوگنو. خروجی این لایه حاصل‌ضرب وزن نرمال‌شده در یک چندجمله‌ای درجه اول است:
+		$$ f_i = p_i x + q_i y + r_i $$
+		
+		\item \textbf{لایه ۵ (خروجی نهایی سیستم):} معادل گره $\Sigma$، خروجی‌های لایه قبل برای تولید پیش‌بینی قطعی نهایی تجمیع می‌شوند:
+		$$ y_{pred} = \sum_{i} \bar{w}_i f_i $$
+	\end{enumerate}
+	مطابق با فرمولاسیون اصلی مقاله، ۵ لایه استنتاج فازی به صورت برداری و ماتریسی برنامه‌نویسی شده‌اند:
+	
+	\begin{latin}
+		\begin{vscodewindow}{ANFIS Forward Pass (5 Layers Implementation)}
+def _forward(self, X):
+# Layer 1: Fuzzification (Gaussian Memberships)
+mu = self._fuzzify(X)
+
+# Layer 2: Rule Firing Strength (T-Norm / Product)
+w = self._fire_strength(mu)
+
+# Layer 3: Normalization (Ratio of firing strengths)
+w_n = w / w.sum(axis=1, keepdims=True)
+
+# Layer 4: Consequent Linear Equations (Sugeno Type)
+Xe = np.hstack([X, np.ones((X.shape[0], 1))])
+f = Xe @ self.P.T
+
+# Layer 5: Final Output Aggregation
+y = (w_n * f).sum(axis=1)
+
+return y, w, w_n, mu, f
+		\end{vscodewindow}
+	\end{latin}
+	
+	\textbf{تحلیل لایه‌ها:}
+	\begin{enumerate}
+		\item \textbf{لایه ۱:} درجه عضویت ورودی‌ها توسط تابع گوسی محاسبه می‌شود.
+		\item \textbf{لایه ۲ (قدرت قوانین):} معادل گره‌های $\Pi$ در مقاله، در کد ما از عملگر ضرب (\lr{np.prod}) برای محاسبه قدرت هر قانون فازی استفاده شده است.
+		\item \textbf{لایه ۳ (نرمال‌سازی):} معادل گره‌های $N$، قدرت هر قانون بر جمع کل قدرت‌ها تقسیم می‌شود تا وزن نرمال (\lr{w\_n}) به دست آید.
+		\item \textbf{لایه ۴ (بخش نتیجه):} ضرب ماتریسی \lr{Xe @ P.T} معادلات خطی سوگنو ($p x + q y + r$) را برای هر قانون تولید می‌کند.
+		\item \textbf{لایه ۵ (تجمع):} مجموع ضرب وزن‌های نرمال در نتایج خطی، مقدار پیوسته و نهایی حق بیمه را پیش‌بینی می‌کند.
+	\end{enumerate}
+	
+	\subsection{الگوریتم یادگیری هیبریدی \lr{(Hybrid Learning Rule)}}
+	شاهکار اصلی پروفسور جانگ در معرفی «یادگیری هیبریدی» بود. از آنجا که پارامترهای لایه ۴ خطی و پارامترهای لایه ۱ غیرخطی هستند، در کد ما دو مسیر یادگیری پیاده شده است:
+	\begin{itemize}
+		\item \textbf{مسیر رفت (\lr{Forward Pass}):} با متوقف کردن گرادیان‌ها، پارامترهای خطی $p, q, r$ به طور صریح با حل ماتریس کمترین مربعات خطا (\lr{Least Squares Estimation - LSE}) بهینه می‌شوند (با استفاده از \lr{np.linalg.lstsq}).
+		\item \textbf{مسیر برگشت (\lr{Backward Pass}):} خطای محاسبه شده در خروجی، به عقب بازگشته و پارامترهای مراکز $c$ و پراکندگی $\sigma$ توابع گوسی را توسط انتشار معکوس خطا (\lr{Gradient Descent}) با مشتقات دقیق ماتریسی به‌روزرسانی می‌کند.
+	\end{itemize}
+	کار اصلی پروفسور جانگ در معرفی «یادگیری هیبریدی» بود. از آنجا که آپدیت کردن همزمان لایه اول (مراکز گوسی) و لایه چهارم (ضرایب خطی) با گرادیان کاهشی به دلیل تفاوت در ماهیت خطی/غیرخطی باعث ناپایداری شدید شبکه می‌شود، ما کد زیر را توسعه دادیم:
+	
+	\begin{latin}
+		\begin{vscodewindow}{Hybrid Learning Algorithm: LSE for Forward, GD for Backward}
+# --- Forward Pass: LSE optimization for linear parameters ---
+Xe = np.hstack([Xb, np.ones((Nb, 1))])
+for r in range(self.n_rules):
+    W_r = w_n[:, r]
+    A = W_r[:, None] * Xe
+    b_r = W_r * yb
+    # Solving Least Squares exactly via NumPy
+    sol, _, _, _ = np.linalg.lstsq(A, b_r, rcond=None)
+    self.P[r] = sol
+
+# --- Backward Pass: Gradient descent for nonlinear premise parameters ---
+y_pred, w, w_n, mu, f = self._forward(Xb)
+err = y_pred - yb
+w_sum = w.sum(axis=1, keepdims=True)
+
+# Chain Rule for backward propagation
+d_wn = err[:, None] * (f - y_pred[:, None])
+d_w = (d_wn * w_sum - w * d_wn.sum(axis=1, keepdims=True)) / (w_sum ** 2 + 1e-12)
+
+for r in range(self.n_rules):
+    for ftr in range(F):
+        # Updating Centers (c) and Standard Deviations (sigma)
+        self.c[r, ftr] -= self.lr * dc.mean()
+        self.sigma[r, ftr] -= self.lr * dsig.mean()
+		\end{vscodewindow}
+	\end{latin}
+	\subsection{مدیریت چالش نفرین ابعاد \lr{(Curse of Dimensionality)}}
+	یکی از مشکلات کلاسیک تولید قوانین فازی به روش دسته‌بندی شبکه‌ای (\lr{Grid Partitioning}) انفجار تعداد قوانین است. اگر تمام ۱۲ ویژگی دیتاست بیمه (پس از \lr{One-Hot}) را با فرض ۲ تابع عضویت به سیستم می‌دادیم، شبکه مجبور به ساخت $2^{12} = 4096$ قانون می‌شد که برای ۱۳۳۸ نمونه داده، منجر به فاجعه \lr{Overfitting} می‌گردید. به همین جهت فرآیند \lr{Feature Selection} اعمال شد و شبکه تنها ۳ فیچر کلیدی (سن، شاخص توده بدنی و وضعیت سیگار) را دریافت کرد.
+	
+	برای سنجش پایداری مدل، حلقه‌ای هوشمند نوشتیم تا شبکه‌های فازی با ۲، ۴ و ۸ قانون مجزا را در برابر هم ارزیابی کند.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{terminal_3.png}
+		\caption{خروجی \lr{terminal\_3}: اجرای موفقیت‌آمیز الگوریتم هیبریدی ANFIS با تعداد قوانین مختلف.}
+	\end{figure}
+	
+	%====================================================
+	%                  VISUALIZATION OUTPUTS
+	%====================================================
+	
+	\section{تحلیل نمودارهای یادگیری و توابع فازی}
+	
+	در این بخش، دستاوردهای شبکه عصبی در تنظیم پارامترهای منطق فازی ارزیابی می‌گردند.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{fig6.png}
+		\caption{نمودار \lr{fig6}: منحنی یادگیری ( Learning Curve ). کاهش متوازن و یکنواخت MSE در مقیاس لگاریتمی، گواه بر صحت عملکرد ریاضیاتی الگوریتم Gradient Descent ما در فاز پس‌رو می‌باشد.}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{fig8.png}
+		\caption{نمودار \lr{fig8}: توابع عضویت گوسی شکل‌یافته ( Membership Functions ). اوج قدرت سیستم عصبی-فازی در این تصویر پیداست؛ شبکه با جابه‌جا کردن مراکز و عرض توابع در طول ایپاک‌ها، بهترین مرزبندی را برای توصیف مفاهیم کیفی استخراج کرده است.}
+	\end{figure}
+	
+	%====================================================
+	%                  FINAL RESULTS & DISCUSSION
+	%====================================================
+	
+	\section{ارزیابی جامع و نتیجه‌گیری نهایی}
+	
+	\begin{tcolorbox}[
+		colback=softpink,
+		colframe=softred,
+		title=تحلیل استنتاجی و مقایسه رویکردها,
+		halign title=center,
+		arc=3mm, boxrule=1pt
+		]
+		آزمایش روی دیتاست بیمه ثابت کرد که مدل‌های ساده‌ترِ مجهز به ویژگی‌های تعاملی صریح، می‌توانند شبکه‌های عصبی عمیق بلک‌باکس را در داده‌های جدولی کوچک شکست دهند.
+	\end{tcolorbox}
+	
+	در جدول نهایی، خروجی تمامی روش‌ها در کنار یکدیگر لیست شده‌اند.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]{terminal_4.png}
+		\caption{خروجی \lr{terminal\_4}: جدول رتبه‌بندی نهایی مدل‌ها براساس بهترین دقت ( R2 Score ).}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{fig4.png}
+			\caption{نمودار \lr{fig4}: مقایسه شاخص دقت مدل‌ها ($R^2$).}
+		\end{subfigure}\hfill
+		\begin{subfigure}{0.48\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{fig5.png}
+			\caption{نمودار \lr{fig5}: مقایسه شاخص خطای مدل‌ها (\lr{RMSE}).}
+		\end{subfigure}
+		\caption{نمودارهای میله‌ای عملکرد رویکردهای آماری، عصبی و فازی.}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]{fig7.png}
+		\caption{نمودار \lr{fig7}: نمودار مقایسه چهارتایی ( Predicted vs Actual ). خط‌چین قرمز رنگ ($y=x$) نشان‌دهنده پیش‌بینی ایده‌آل است. تمرکز نقاط دور این خط نشان می‌دهد که مدل‌ها الگوهای اصلی را به درستی درک کرده‌اند.}
+	\end{figure}
+	
+	\subsection{تحلیل پدیده اشباع قوانین و برتری رگرسیون}
+	مشاهده جالبی که از نمودارهای فوق استخراج می‌شود، رقابت بسیار نزدیک رگرسیون چندجمله‌ای، عمیق‌ترین شبکه عصبی و \lr{ANFIS} هیبریدی (با ۴ قانون) است. 
+	سیستم فازی تطبیقی با تولید صرفاً ۴ قاعده فازی هوشمند توانست به دقتی معادل شبکه‌های عصبی چندلایه دست یابد. افزایش تعداد قوانین از ۴ به ۸ نه تنها به بهبود مدل کمک نکرد، بلکه به دلیل اصل \lr{Occam's Razor} و تمایل مدل‌های پیچیده به \lr{Overfitting} بر روی ۱۳۳۸ سطر داده، باعث افت نامحسوس دقت گردید.
+	از سوی دیگر، رگرسیون چندجمله‌ای با تولید خودکار رابطه تعاملی \lr{BMI * Smoker} بالاترین دقت را کسب نمود، زیرا ذاتِ افزایش حق بیمه‌ها در این دیتاست بر مبنای یک شیفت خطی واضح در این تعامل خاص استوار است. در نهایت این پروژه با موفقیت اثبات نمود که ترکیب یادگیری هیبریدی موازنه فوق‌العاده‌ای میان تفسیرپذیری قواعد فازی انسان‌محور و قدرت محاسباتی شبکه‌های عصبی عمیق پدید می‌آورد.
+	
+\end{document}
